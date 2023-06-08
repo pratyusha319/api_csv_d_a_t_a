@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ 
+    <title>Document</title>
+</head>
+<body>
+   
+    
+
+    <table style="border: 3px; color:black" >
+        <tr>
+        
+        <th>bank_name</th>
+        <th> ifsc</th>
+        <th>branch</th>
+        <th>address</th>
+        <th> contact</th>
+        <th> district</th>
+        <th> state</th>
+    </tr>
+    
+        {% for i in BO %}
+        <tr>
+       
+        <td>{{i.bank_name}}</td>
+        <td>{{i.ifsc}}</td>
+        <td>{{i.branch}}</td>
+        <td>{{i.address}}</td>
+        <td>{{i.contact}}</td>
+        <td>{{i.district}}</td>
+        <td>{{i.state}}</td>
+        {% endfor %}
+    </tr>
+    
+    </table>
+</body>
+</html>
