@@ -14,13 +14,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,include
 from app.views import *
+from rest_framework.routers import DefaultRouter
+DRO=DefaultRouter()
+
+DRO.register('branch',branchjd,basename='branch')
+DRO.register('bank',bankjd,basename='bank')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('bank_upload/',bank_upload,name='bank_upload'),
     path('branch_upload/',branch_upload,name='branch_upload'),
-    path('display/',display,name='display'),
+    #path('display/',display,name='display'),
+   # path('display_data/',display_data,name='display_data'),
+    path('app/',include(DRO.urls))
 
 ]

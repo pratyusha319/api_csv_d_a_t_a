@@ -6,6 +6,9 @@ from django.http import HttpResponse
 from app.models import *
 import csv
 
+from rest_framework.response import Response
+from rest_framework.viewsets import ViewSet
+from app.serializers import *
 
 
 def bank_upload(file_path):
@@ -65,7 +68,108 @@ def branch_upload(file_path):
 
 
 
-def display(request):
-    BO=Branch.objects.all()
-    d = {'BO': BO}
-    return render(request, 'display.html',d)
+# def display(request):
+#     BO=Branch.objects.all()
+#     d = {'BO': BO}
+#     return render(request, 'display.html',d)
+
+
+
+
+class branchjd(ViewSet):
+    def list(self,request,):
+        ATO=Branch.objects.all()
+        STD=Branchserializers(ATO,many=True)
+        return Response(STD.data)
+    
+
+    def create(self,request):
+        bmsd=Branchserializers(data=request.data)
+        if bmsd.is_valid():
+            bmsd.save()
+            return Response({'message':'branch is created'})
+       
+        return Response({'message':'branch creation is failed'})
+    def retrieve(self,request,pk):
+        po=Branch.objects.get(pk=pk)
+        pmsd=Branchserializers(po)
+    
+        return Response(pmsd.data)
+    
+
+    def update(self,request,pk):
+      
+        bo=Branch.objects.get(pk=pk)
+        ubo=Branchserializers(bo,data=request.data)
+      
+        if ubo.is_valid():
+            ubo.save()
+            return Response({'message':'brancht is updated'})
+       
+        return Response({'message':'branch updation is failed'})
+
+    def partial_update(self, request, pk):
+       
+        bo=Branch.objects.get(pk=pk)
+        ubo=Branchserializers(bo,data=request.data,partial=True)
+        if ubo.is_valid():
+            ubo.save()
+            return Response({'message': 'branch is partially updated'})
+        return Response({'message':'branch updation is failed'})
+
+        
+
+    def destroy(self,request,pk ):
+        
+        Branch.objects.get(pk=pk).delete()
+        
+        return Response({'success': 'branch is deleted'})
+
+class bankjd(ViewSet):
+    def list(self,request,):
+        ATO=Bank.objects.all()
+        STD=Bankserializers(ATO,many=True)
+        return Response(STD.data)
+    
+
+    def create(self,request):
+        bmsd=Bankserializers(data=request.data)
+        if bmsd.is_valid():
+            bmsd.save()
+            return Response({'message':'Bank is created'})
+       
+        return Response({'message':'Bank creation is failed'})
+    def retrieve(self,request,pk):
+        po=Bank.objects.get(pk=pk)
+        pmsd=Bankserializers(po)
+    
+        return Response(pmsd.data)
+    
+
+    def update(self,request,pk):
+      
+        bo=Bank.objects.get(pk=pk)
+        ubo=Bankserializers(bo,data=request.data)
+      
+        if ubo.is_valid():
+            ubo.save()
+            return Response({'message':'Bank is updated'})
+       
+        return Response({'message':'Bank updation is failed'})
+
+    def partial_update(self, request, pk):
+       
+        bo=Bank.objects.get(pk=pk)
+        ubo=Bankserializers(bo,data=request.data,partial=True)
+        if ubo.is_valid():
+            ubo.save()
+            return Response({'message': 'Bank is partially updated'})
+        return Response({'message':'bank updation is failed'})
+
+        
+
+    def destroy(self,request,pk ):
+        
+        Bank.objects.get(pk=pk).delete()
+        
+        return Response({'success': 'Bank is deleted'})
